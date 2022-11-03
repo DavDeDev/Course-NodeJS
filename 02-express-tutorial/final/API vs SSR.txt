@@ -1,0 +1,10 @@
+When using Express, in most cases, is served to setup API or SSR.
+
+API in Express and HTTP:
+We setup an HTTP interface to interact with our data (in JSON form) --> RES.JSON()
+
+SSR we render templates and send back entire HTML,CSS and JS file --> RES.RENDER()
+
+For the most, the setups are similar 
+
+APIs: Our server provides data in JSON format and our front-end can retrieve those datas with a simple HTTP - request
