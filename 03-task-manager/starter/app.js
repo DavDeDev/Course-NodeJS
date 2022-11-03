@@ -11,9 +11,9 @@ app.get("/hello", (req, res) => {
 });
 
 
-app.use("/api/v1/tasks", tasks);
 // This middleware serves to read incoming json requests
 app.use(express.json());
+app.use("/api/v1/tasks", tasks);
 
 const port = 3000;
 
