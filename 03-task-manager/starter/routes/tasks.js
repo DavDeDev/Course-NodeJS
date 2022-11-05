@@ -15,6 +15,6 @@ const {
 router.route("/").get(getAllTasks).post(createTask);
 //Even if they GET and POST have the same URL
 
-router.route("/:id").get(getTask).put(updateTask).delete(deleteTask);
+router.route("/:id").get(getTask).patch(updateTask).delete(deleteTask);
 
 module.exports = router;
