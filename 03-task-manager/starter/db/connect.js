@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 // TODO: Create a .env file and add the password there and add .env to .gitignore
 
 // const connectionString =
-//   "mongodb+srv://david:XJCTqFtz9UfU3bz@nodeexpressprojects.cwgk2x3.mongodb.net/03-TASK-MANAGER?retryWrites=true&w=majority";
+//   "";
 
 
 // We create this function to be able to kill the application if the connection fails
