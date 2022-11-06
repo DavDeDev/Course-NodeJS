@@ -15,6 +15,9 @@ const {
 router.route("/").get(getAllTasks).post(createTask);
 //Even if they GET and POST have the same URL
 
+//!PUT and PATCH
+//PUT is used to replace the entire resource
+//PATCH is used to update a part of the resource
 router.route("/:id").get(getTask).patch(updateTask).delete(deleteTask);
 
 module.exports = router;
