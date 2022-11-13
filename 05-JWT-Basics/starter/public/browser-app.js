@@ -24,6 +24,7 @@ formDOM.addEventListener('submit', async (e) => {
     usernameInputDOM.value = ''
     passwordInputDOM.value = ''
 
+    // I save the token in the local storage ( in the frontend u have to store the token somewhere)
     localStorage.setItem('token', data.token)
     resultDOM.innerHTML = ''
     tokenDOM.textContent = 'token present'
@@ -45,6 +46,7 @@ btnDOM.addEventListener('click', async () => {
   const token = localStorage.getItem('token')
   try {
     const { data } = await axios.get('/api/v1/dashboard', {
+      // Get the value from the headers and send it to the backend
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -28,10 +28,10 @@ app.use(errorHandlerMiddleware);
 const port = process.env.PORT || 3000;
 
 // Whenever we use async it is better to use try/catch
-const start = async () => {
+const start =  () => {
   try {
     // tO USE THE .env FILE WE USE process.env
-    await connectDB(process.env.MONGO_URI);
+     connectDB(process.env.MONGO_URI);
     app.listen(port, console.log(`Server is listening on port ${port}....`));
   } catch (error) {
     console.log(error);
