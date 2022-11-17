@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const bcrypt = require('bcryptjs')
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -28,11 +29,24 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-UserSchema.pre('save',async function(){
+UserSchema.pre("save", async function () {
   const salt = await bcrypt.genSalt();
   //! This refers to the document!!
-  this.password = await bcrypt.hash(this.password,salt);
+  this.password = await bcrypt.hash(this.password, salt);
   //next(); Read the documentation https://mongoosejs.com/docs/middleware.html#pre
-})
+});
+
+//! Creating a Schema method
+UserSchema.methods.getName = function () {
+  //! this points to the document (again)
+  return this.name;
+};
+
+//! We create the token directly here
+UserSchema.methods.createJWT = function () {
+  return jwt.sign({ userId: this._id, name: this.name }, "jwtSecret", {
+    expiresIn: "30d",
+  });
+};
 
 module.exports = mongoose.model("User", UserSchema);
