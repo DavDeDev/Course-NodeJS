@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const { StatusCodes } = require("http-status-codes");
-//const {BadRequestError} = require('../errors')
+const {BadRequestError, UnauthenticatedError} = require('../errors')
 //! NEVER STORE A PASSWORD AS A STRING, hash them before storing
 //const bcrypt=require('bcryptjs')
 //const jwt = require("jsonwebtoken");
@@ -21,18 +21,33 @@ const register = async (req, res) => {
 
   const user = await User.create({ ...req.body });
 
-//   const token = jwt.sign({ userId: user._id, name: user.name }, "jwtSecret", {
-//     expiresIn: "30d",
-//   });
-// !! 2) Instead of creating the token here we gonna do in the schema
-const token = user.createJWT();
-res
-  .status(StatusCodes.CREATED)
-  .json({ user: { name: user.getName() }, token });
+  //   const token = jwt.sign({ userId: user._id, name: user.name }, "jwtSecret", {
+  //     expiresIn: "30d",
+  //   });
+  // !! 2) Instead of creating the token here we gonna do in the schema
+  const token = user.createJWT();
+  res
+    .status(StatusCodes.CREATED)
+    .json({ user: { name: user.getName() }, token });
 };
 
 const login = async (req, res) => {
-  res.send("login user");
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    throw new BadRequestError("Please provide email and password");
+  }
+  const user = await User.findOne({ email });
+
+  //If the user doesn't exist
+  if(!user){
+    throw new UnauthenticatedError('Invalid credentials')
+  }
+  //else
+
+  const token = user.createJWT();
+  res.status(StatusCodes.OK).json({user:{name:user.name},token})
+
 };
 
 module.exports = {
