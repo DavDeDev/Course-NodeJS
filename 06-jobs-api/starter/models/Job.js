@@ -5,12 +5,12 @@ const JobSchema = new mongoose.Schema(
     company: {
       type: String,
       required: [true, "Please provide company name"],
-      maxlength: 50,
+      maxLength: 50,
     },
     position: {
       type: String,
       required: [true, "Please provide position"],
-      maxlength: 50,
+      maxLength: 50,
     },
     status: {
       type: String,
@@ -24,7 +24,7 @@ const JobSchema = new mongoose.Schema(
       required: [true, "Please provide user"],
     },
   },
-  { timestamps: true }
+  { timestamps: true } //! This will add "createdAt" and "updatedAt" properties with the timestamps
 );
 
 module.exports = mongoose.model("Job", JobSchema);
