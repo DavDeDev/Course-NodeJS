@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const { StatusCodes } = require("http-status-codes");
-const {BadRequestError, UnauthenticatedError} = require('../errors')
+const { BadRequestError, UnauthenticatedError } = require("../errors");
 //! NEVER STORE A PASSWORD AS A STRING, hash them before storing
 //const bcrypt=require('bcryptjs')
 //const jwt = require("jsonwebtoken");
@@ -40,14 +40,17 @@ const login = async (req, res) => {
   const user = await User.findOne({ email });
 
   //If the user doesn't exist
-  if(!user){
-    throw new UnauthenticatedError('Invalid credentials')
+  if (!user) {
+    throw new UnauthenticatedError("Invalid credentials");
   }
-  //else
+  //else check password
+  const isPasswordCorrect = await user.comparePassword(password);
+  if(!isPasswordCorrect){
+    throw new UnauthenticatedError("Invalid credentials");
+  }
 
   const token = user.createJWT();
-  res.status(StatusCodes.OK).json({user:{name:user.name},token})
-
+  res.status(StatusCodes.OK).json({ user: { name: user.name }, token });
 };
 
 module.exports = {
