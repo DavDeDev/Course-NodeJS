@@ -12,12 +12,19 @@ const errorHandlerMiddleware = (err, req, res, next) => {
   //   return res.status(err.statusCode).json({ msg: err.message });
   // }
 
-  if (err.name === "ValidationError") { // this is trigger because of wrong input
-    console.log(Object.values(err.errors))
+  if (err.name === "ValidationError") {
+    // this is triggered because of wrong input
+    console.log(Object.values(err.errors));
     customError.msg = Object.values(err.errors)
       .map((item) => item.message)
       .join(",");
     customError.statusCode = 400;
+  }
+
+  if (err.name === "CastError") {
+    //This is triggered when the _id has the wrong length
+    customError.msg = `No item found with id: ${err.value}`;
+    customError.statusCode = 404;
   }
 
   if (err.code && err.code === 11000) {
