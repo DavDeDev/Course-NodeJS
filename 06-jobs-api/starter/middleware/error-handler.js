@@ -12,9 +12,17 @@ const errorHandlerMiddleware = (err, req, res, next) => {
   //   return res.status(err.statusCode).json({ msg: err.message });
   // }
 
+  if (err.name === "ValidationError") { // this is trigger because of wrong input
+    console.log(Object.values(err.errors))
+    customError.msg = Object.values(err.errors)
+      .map((item) => item.message)
+      .join(",");
+    customError.statusCode = 400;
+  }
+
   if (err.code && err.code === 11000) {
     //! if the error exist and it's the one of email already registered
-    
+
     //? Object.keys give an array of the keys in the JSON
     customError.msg = `Duplicate value entered for ${
       Object.keys(err.keyValue)[0]
